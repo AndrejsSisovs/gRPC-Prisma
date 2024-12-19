@@ -3,13 +3,26 @@ syntax = "proto3";
 package product;
 
 service ProductService {
-  rpc GetProductById (GetProductByIdRequest) returns (Product);
-  rpc ListProducts (Empty) returns (ListProductsResponse);
-  rpc CreateProduct (CreateProductRequest) returns (Product);
+  rpc CreateProduct (CreateProductRequest) returns (Product) {};
+  rpc ListProducts (Empty) returns (ListProductsResponse) {};
+  rpc GetProductById (GetProductByIdRequest) returns (Product) {};
+  rpc UpdateProduct (UpdateProductRequest) returns (Product){};
+  rpc RemoveProduct (GetProductByIdRequest) returns (Product){};
 }
 
+message UpdateProductRequest {
+  string id = 1;
+  string name = 2;
+  float price = 3;
+  bool sale = 4;
+  string availibility = 6; // Availibility as string
+  string description = 7;
+}
+
+message Empty {}
+
 message GetProductByIdRequest {
-  int32 id = 1;
+  string id = 1;
 }
 
 message ListProductsResponse {
@@ -35,4 +48,4 @@ message Product {
   string updatedAt = 8;
 }
 
-message Empty {}
+
