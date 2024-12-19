@@ -1,16 +1,12 @@
-import { Injectable, NotFoundException, OnModuleInit } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { Product } from '.prisma/client';
 import { CreateProductRequest, Products, UpdateProductRequest } from '@app/comon';
 import { DatabaseService } from '../database/database.service';
+
 @Injectable()
-export class UserProductsService  implements OnModuleInit{
-  private readonly products: Product [] = []
+export class UserProductsService {
   constructor(private readonly databaseService: DatabaseService) {}
 
-  onModuleInit() {
-    
-  }
-  
   async createProduct(createProductRequest: CreateProductRequest): Promise<Product> {
     const product = await this.databaseService.product.create({
       data: {
@@ -21,36 +17,40 @@ export class UserProductsService  implements OnModuleInit{
         description: createProductRequest.description,
       },
     });
-    return product
+    return product;
   }
 
-  listProducts() : Products {
-    return {products: this.products};
+  async listProducts(): Promise<Products> {
+    const products = await this.databaseService.product.findMany();
+    return { products };
   }
 
-  getProductById(id: number) {
-    const searchedObject = this.products.find(product => product.id == id);
-    return searchedObject;
-  }
-
-  updateProduct(id: number, updateProduct: UpdateProductRequest) {
-    const productIndex = this.products.findIndex((product) => product.id ==id )
-    if(productIndex !== -1) { 
-      this.products[productIndex] = {
-        ...this.products[productIndex],
-        ...updateProduct,
-      };
-      return this.products[productIndex]
+  async getProductById(id: number): Promise<Product> {
+    const product = await this.databaseService.product.findUnique({ where: { id } });
+    if (!product) {
+      throw new NotFoundException(`Product not found with id: ${id}`);
     }
-    throw new NotFoundException(`User not found by id: ${id}`)
+    return product;
   }
 
-  removeProduct(id: number) {
-    const productIndex = this.products.findIndex((product) => product.id ==id )
-    if(productIndex !== -1) { 
-      return this.products.splice(productIndex)[0];
-      };
-    }
+  async updateProduct(id: number, updateProduct: UpdateProductRequest): Promise<Product> {
+    const product = await this.databaseService.product.update({
+      where: { id },
+      data: {
+        name: updateProduct.name,
+        price: updateProduct.price,
+        sale: updateProduct.sale,
+        availibility: updateProduct.availibility,
+        description: updateProduct.description,
+      },
+    });
+    return product;
   }
-  
+
+  async removeProduct(id: number): Promise<Product> {
+    const product = await this.databaseService.product.delete({
+      where: { id },
+    });
+    return product;
+  }
 }

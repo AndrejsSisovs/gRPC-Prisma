@@ -1,14 +1,13 @@
 import { Controller } from '@nestjs/common';
-import { MessagePattern, Payload } from '@nestjs/microservices';
+// import { MessagePattern, Payload } from '@nestjs/microservices';
 import { UserProductsService } from './user-products.service';
 import { ProductServiceController, 
   CreateProductRequest, 
   GetProductByIdRequest, 
   UpdateProductRequest, 
   ProductServiceControllerMethods,
-  PaginationDto,
   Products } from '@app/comon';
-import { Observable } from 'rxjs';
+// import { Observable } from 'rxjs';
 
 @Controller()
 @ProductServiceControllerMethods()
@@ -28,11 +27,11 @@ export class UserProductsController  implements ProductServiceController{
   }
 
   updateProduct(updateProductRequest: UpdateProductRequest) {
-    return this.userProductsService.updateProduct(updateProductRequest);
+    return this.userProductsService.updateProduct(updateProductRequest.id, updateProductRequest);
   }
 
-  removeProduct(getProductByIdRequest: getProductByIdRequest) {
-    return this.userProductsService.remove(getProductByIdRequest.id);
+  removeProduct(getProductByIdRequest: GetProductByIdRequest) {
+    return this.userProductsService.removeProduct(getProductByIdRequest.id);
   }
 
 }

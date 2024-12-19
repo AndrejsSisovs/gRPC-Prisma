@@ -24,7 +24,7 @@ export interface Empty {
 }
 
 export interface GetProductByIdRequest {
-  id: string;
+  id: number;
 }
 
 export interface Products {
