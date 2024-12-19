@@ -1,28 +1,46 @@
-import { Injectable } from '@nestjs/common';
-import { CreateUserProductDto } from './dto/create-user-product.dto';
-import { UpdateUserProductDto } from './dto/update-user-product.dto';
+import { Injectable, OnModuleInit } from '@nestjs/common';
 import { Product } from '.prisma/client';
-
+import { CreateProductRequest } from '@app/comon';
+import { DatabaseService } from '../database/database.service';
 @Injectable()
-export class UserProductsService {
+export class UserProductsService  implements OnModuleInit{
   private readonly products: Product [] = []
-  create(createUserProductDto: CreateUserProductDto) {
-    return 'This action adds a new userProduct';
+  constructor(private readonly databaseService: DatabaseService) {}
+  onModuleInit() {
+    
+  }
+  
+  async createProduct(createProductRequest: CreateProductRequest): Promise<Product> {
+    const product = await this.databaseService.product.create({
+      data: {
+        name: createProductRequest.name,
+        price: createProductRequest.price,
+        sale: createProductRequest.sale,
+        availibility: createProductRequest.availibility,
+        description: createProductRequest.description,
+      },
+    });
+    return product
   }
 
-  findAll() {
+  listProducts() {
     return `This action returns all userProducts`;
   }
 
-  findOne(id: number) {
+  getProductById(id: number) {
     return `This action returns a #${id} userProduct`;
   }
 
-  update(id: number, updateUserProductDto: UpdateUserProductDto) {
-    return `This action updates a #${id} userProduct`;
+  updateProduct() {
+    return `This action updates a  userProduct`;
   }
 
-  remove(id: number) {
+  removeProduct(id: number) {
     return `This action removes a #${id} userProduct`;
   }
+
+  queryProducts() {
+    return `This action removes a #$} userProduct`;
+  }
+
 }

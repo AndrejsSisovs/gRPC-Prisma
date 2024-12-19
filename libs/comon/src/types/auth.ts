@@ -50,12 +50,8 @@ export interface Product {
   name: string;
   price: number;
   sale: boolean;
-  /** Availibility as string */
   availibility: string;
-  /** Optional description content */
   description: string;
-  createdAt: string;
-  updatedAt: string;
 }
 
 export const PRODUCT_PACKAGE_NAME = "product";

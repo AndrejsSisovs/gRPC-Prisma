@@ -48,10 +48,9 @@ message Product {
   string name = 2;
   float price = 3;
   bool sale = 4;
-  string availibility = 5; // Availibility as string
-  string description = 6; // Optional description content
-  string createdAt = 7;
-  string updatedAt = 8;
+  string availibility = 5;
+  string description = 6;
 }
+
 
 

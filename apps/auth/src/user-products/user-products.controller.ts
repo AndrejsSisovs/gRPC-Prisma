@@ -8,7 +8,6 @@ import { ProductServiceController,
   ProductServiceControllerMethods,
   PaginationDto,
   Products } from '@app/comon';
-import { Prisma } from '@prisma/client';
 import { Observable } from 'rxjs';
 
 @Controller()
@@ -17,7 +16,7 @@ export class UserProductsController  implements ProductServiceController{
   constructor(private readonly userProductsService: UserProductsService) {}
 
   createProduct( createProductRequest: CreateProductRequest) {
-    return this.userProductsService.create(createProductRequest);
+    return this.userProductsService.createProduct(createProductRequest);
   }
 
   listProducts() {
