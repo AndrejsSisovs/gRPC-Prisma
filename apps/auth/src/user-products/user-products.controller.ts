@@ -1,35 +1,47 @@
 import { Controller } from '@nestjs/common';
 import { MessagePattern, Payload } from '@nestjs/microservices';
 import { UserProductsService } from './user-products.service';
-import { CreateUserProductDto } from './dto/create-user-product.dto';
-import { UpdateUserProductDto } from './dto/update-user-product.dto';
+import { ProductServiceController, 
+  CreateProductRequest, 
+  GetProductByIdRequest, 
+  UpdateProductRequest, 
+  ProductServiceControllerMethods,
+  PaginationDto,
+  Products } from '@app/comon';
+import { Prisma } from '@prisma/client';
+import { Observable } from 'rxjs';
 
 @Controller()
-export class UserProductsController {
+@ProductServiceControllerMethods()
+export class UserProductsController  implements ProductServiceController{
   constructor(private readonly userProductsService: UserProductsService) {}
 
-  @MessagePattern('createUserProduct')
-  create(@Payload() createUserProductDto: CreateUserProductDto) {
-    return this.userProductsService.create(createUserProductDto);
+  createProduct( createProductRequest: CreateProductRequest) {
+    return this.userProductsService.create(createProductRequest);
   }
 
-  @MessagePattern('findAllUserProducts')
-  findAll() {
+  listProducts() {
     return this.userProductsService.findAll();
   }
 
-  @MessagePattern('findOneUserProduct')
-  findOne(@Payload() id: number) {
-    return this.userProductsService.findOne(id);
+  getProductById(getProductByIdRequest: GetProductByIdRequest) {
+    return this.userProductsService.findOne(getProductByIdRequest.id);
   }
 
-  @MessagePattern('updateUserProduct')
-  update(@Payload() updateUserProductDto: UpdateUserProductDto) {
-    return this.userProductsService.update(updateUserProductDto.id, updateUserProductDto);
+  updateProduct(updateProductRequest: UpdateProductRequest) {
+    return this.userProductsService.update(updateProductRequest.id, updateProductRequest.name, 
+      updateProductRequest.price, 
+      updateProductRequest.sale, 
+      updateProductRequest.availibility, 
+      updateProductRequest.description);
   }
 
-  @MessagePattern('removeUserProduct')
-  remove(@Payload() id: number) {
-    return this.userProductsService.remove(id);
+  removeProduct(getProductByIdRequest: getProductByIdRequest) {
+    return this.userProductsService.remove(getProductByIdRequest.id);
+  }
+
+  queryProducts(paginationDtoStream: Observable<PaginationDto>)
+  {
+    return this.userProductsService.queryProducts(paginationDtoStream)
   }
 }

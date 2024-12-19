@@ -1,9 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { CreateUserProductDto } from './dto/create-user-product.dto';
 import { UpdateUserProductDto } from './dto/update-user-product.dto';
+import { Product } from '.prisma/client';
 
 @Injectable()
 export class UserProductsService {
+  private readonly products: Product [] = []
   create(createUserProductDto: CreateUserProductDto) {
     return 'This action adds a new userProduct';
   }
