@@ -1,26 +1,42 @@
-import { Injectable } from '@nestjs/common';
-import { CreateUserProductDto } from '@app/comon';
-import { UpdateUserProductDto } from './dto/update-user-product.dto';
+import { Inject, Injectable, OnModuleInit } from '@nestjs/common';
+import { ProductServiceController, 
+  CreateProductRequest, 
+  GetProductByIdRequest, 
+  UpdateProductRequest, 
+  ProductServiceControllerMethods,
+  Products, 
+  ProductServiceClient,
+  PRODUCT_SERVICE_NAME} from '@app/comon';
+import { AUTH_SERVICE } from './constants';
+import { ClientGrpc } from '@nestjs/microservices';
 
 @Injectable()
-export class UserProductsService {
-  create(createUserProductDto: CreateUserProductDto) {
-    return 'This action adds a new userProduct';
+export class UserProductsService implements OnModuleInit{
+  private productService: ProductServiceClient;
+
+  constructor(@Inject(AUTH_SERVICE) private client: ClientGrpc) {}
+  
+  onModuleInit() {
+    this.productService = this.client.getService<ProductServiceClient>(PRODUCT_SERVICE_NAME)
   }
 
-  findAll() {
-    return `This action returns all userProducts`;
+  createProduct(createProductRequest: CreateProductRequest) {
+    return this.productService.createProduct(createProductRequest);
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} userProduct`;
+  listProducts() {
+    return this.productService.listProducts({});
   }
 
-  update(id: number, updateUserProductDto: UpdateUserProductDto) {
-    return `This action updates a #${id} userProduct`;
+  getProductById(id: number) {
+    return this.productService.getProductById({id});
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} userProduct`;
+  updateProduct(id: number, updateProductRequest: UpdateProductRequest) {
+    return this.productService.updateProduct({id, ...updateProductRequest});
+  }
+
+  removeProduct(id: number) {
+    return this.productService.removeProduct({id});
   }
 }
