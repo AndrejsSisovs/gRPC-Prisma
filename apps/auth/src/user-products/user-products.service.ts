@@ -1,11 +1,12 @@
-import { Injectable, OnModuleInit } from '@nestjs/common';
+import { Injectable, NotFoundException, OnModuleInit } from '@nestjs/common';
 import { Product } from '.prisma/client';
-import { CreateProductRequest } from '@app/comon';
+import { CreateProductRequest, Products, UpdateProductRequest } from '@app/comon';
 import { DatabaseService } from '../database/database.service';
 @Injectable()
 export class UserProductsService  implements OnModuleInit{
   private readonly products: Product [] = []
   constructor(private readonly databaseService: DatabaseService) {}
+
   onModuleInit() {
     
   }
@@ -23,24 +24,33 @@ export class UserProductsService  implements OnModuleInit{
     return product
   }
 
-  listProducts() {
-    return `This action returns all userProducts`;
+  listProducts() : Products {
+    return {products: this.products};
   }
 
   getProductById(id: number) {
-    return `This action returns a #${id} userProduct`;
+    const searchedObject = this.products.find(product => product.id == id);
+    return searchedObject;
   }
 
-  updateProduct() {
-    return `This action updates a  userProduct`;
+  updateProduct(id: number, updateProduct: UpdateProductRequest) {
+    const productIndex = this.products.findIndex((product) => product.id ==id )
+    if(productIndex !== -1) { 
+      this.products[productIndex] = {
+        ...this.products[productIndex],
+        ...updateProduct,
+      };
+      return this.products[productIndex]
+    }
+    throw new NotFoundException(`User not found by id: ${id}`)
   }
 
   removeProduct(id: number) {
-    return `This action removes a #${id} userProduct`;
+    const productIndex = this.products.findIndex((product) => product.id ==id )
+    if(productIndex !== -1) { 
+      return this.products.splice(productIndex)[0];
+      };
+    }
   }
-
-  queryProducts() {
-    return `This action removes a #$} userProduct`;
-  }
-
+  
 }

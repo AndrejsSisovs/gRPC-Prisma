@@ -10,13 +10,8 @@ import { Observable } from "rxjs";
 
 export const protobufPackage = "product";
 
-export interface PaginationDto {
-  page: number;
-  skip: number;
-}
-
 export interface UpdateProductRequest {
-  id: string;
+  id: number;
   name: string;
   price: number;
   sale: boolean;
@@ -66,8 +61,6 @@ export interface ProductServiceClient {
   updateProduct(request: UpdateProductRequest): Observable<Product>;
 
   removeProduct(request: GetProductByIdRequest): Observable<Product>;
-
-  queryProducts(request: Observable<PaginationDto>): Observable<Products>;
 }
 
 export interface ProductServiceController {
@@ -80,8 +73,6 @@ export interface ProductServiceController {
   updateProduct(request: UpdateProductRequest): Promise<Product> | Observable<Product> | Product;
 
   removeProduct(request: GetProductByIdRequest): Promise<Product> | Observable<Product> | Product;
-
-  queryProducts(request: Observable<PaginationDto>): Observable<Products>;
 }
 
 export function ProductServiceControllerMethods() {
@@ -91,7 +82,7 @@ export function ProductServiceControllerMethods() {
       const descriptor: any = Reflect.getOwnPropertyDescriptor(constructor.prototype, method);
       GrpcMethod("ProductService", method)(constructor.prototype[method], method, descriptor);
     }
-    const grpcStreamMethods: string[] = ["queryProducts"];
+    const grpcStreamMethods: string[] = [];
     for (const method of grpcStreamMethods) {
       const descriptor: any = Reflect.getOwnPropertyDescriptor(constructor.prototype, method);
       GrpcStreamMethod("ProductService", method)(constructor.prototype[method], method, descriptor);

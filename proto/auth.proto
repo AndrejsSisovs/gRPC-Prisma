@@ -8,16 +8,10 @@ service ProductService {
   rpc GetProductById (GetProductByIdRequest) returns (Product) {};
   rpc UpdateProduct (UpdateProductRequest) returns (Product) {};
   rpc RemoveProduct (GetProductByIdRequest) returns (Product) {};
-  rpc QueryProducts (stream PaginationDto) returns (stream Products) {};
-}
-
-message PaginationDto{
-  int32 page =1;
-  int32 skip =2;
 }
 
 message UpdateProductRequest {
-  string id = 1;
+  int32 id = 1;
   string name = 2;
   float price = 3;
   bool sale = 4;

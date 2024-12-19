@@ -20,27 +20,19 @@ export class UserProductsController  implements ProductServiceController{
   }
 
   listProducts() {
-    return this.userProductsService.findAll();
+    return this.userProductsService.listProducts();
   }
 
   getProductById(getProductByIdRequest: GetProductByIdRequest) {
-    return this.userProductsService.findOne(getProductByIdRequest.id);
+    return this.userProductsService.getProductById(getProductByIdRequest.id);
   }
 
   updateProduct(updateProductRequest: UpdateProductRequest) {
-    return this.userProductsService.update(updateProductRequest.id, updateProductRequest.name, 
-      updateProductRequest.price, 
-      updateProductRequest.sale, 
-      updateProductRequest.availibility, 
-      updateProductRequest.description);
+    return this.userProductsService.updateProduct(updateProductRequest);
   }
 
   removeProduct(getProductByIdRequest: getProductByIdRequest) {
     return this.userProductsService.remove(getProductByIdRequest.id);
   }
 
-  queryProducts(paginationDtoStream: Observable<PaginationDto>)
-  {
-    return this.userProductsService.queryProducts(paginationDtoStream)
-  }
 }
