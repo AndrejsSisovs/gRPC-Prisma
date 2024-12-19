@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>User Products</title>
+</head>
+<body>
+  <h1>User Products</h1>
+
+  <!-- Create Product -->
+  <form action="/user-products" method="POST">
+    <h2>Create Product</h2>
+    <label>
+      Product Name:
+      <input type="text" name="name" placeholder="Product Name" required />
+    </label>
+    <br />
+    <label>
+      Price:
+      <input type="number" name="price" placeholder="Price" required />
+    </label>
+    <br />
+    <label>
+      <input type="checkbox" name="sale" /> On Sale
+    </label>
+    <br />
+    <label>
+      Availibility:
+      <input type="text" name="availibility" placeholder="Availibility" required />
+    </label>
+    <br />
+    <label>
+      Description:
+      <textarea name="description" placeholder="Description"></textarea>
+    </label>
+    <br />
+    <button type="submit">Create Product</button>
+  </form>
+
+  <!-- List Products -->
+  <h2>List Products</h2>
+  <a href="/user-products/list">View All Products</a>
+
+  <!-- Search Product by ID -->
+  <h2>Search Product</h2>
+  <form action="/user-products/:id" method="GET">
+    <label>
+      Product ID:
+      <input type="number" name="id" placeholder="Product ID" required />
+    </label>
+    <br />
+    <button type="submit">Search</button>
+  </form>
+</body>
+</html>
