@@ -2,10 +2,11 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { Product } from '.prisma/client';
 import { CreateProductRequest, Products, UpdateProductRequest } from '@app/comon';
 import { DatabaseService } from '../database/database.service';
+import { CACHE_MANAGER } from '@nestjs/cache-manager';
 
 @Injectable()
 export class UserProductsService {
-  constructor(private readonly databaseService: DatabaseService) {}
+  constructor(private readonly cacheManager: Cache, private readonly databaseService: DatabaseService) {}
 
   async createProduct(createProductRequest: CreateProductRequest): Promise<Product> {
     const product = await this.databaseService.product.create({
