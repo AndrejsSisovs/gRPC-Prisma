@@ -13,7 +13,7 @@ describe('UserProductsController', () => {
 
     controller = module.get<UserProductsController>(UserProductsController);
   });
-//
+
   it('should be defined', () => {
     expect(controller).toBeDefined();
   });
