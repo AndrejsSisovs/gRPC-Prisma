@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package registration;
+
+service ProductService {
+  rpc authenticate (AuthInput) returns (AuthResult){};
+}
+
+message AuthInput {
+  string username = 1;
+  string password = 2;
+}
+
+message AuthResult {
+  string accessToken = 1;
+  int32 userId = 2; 
+  string username = 3;
+}

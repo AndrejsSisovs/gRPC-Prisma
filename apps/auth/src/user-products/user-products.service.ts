@@ -6,7 +6,7 @@ import { CACHE_MANAGER } from '@nestjs/cache-manager';
 
 @Injectable()
 export class UserProductsService {
-  constructor(private readonly cacheManager: Cache, private readonly databaseService: DatabaseService) {}
+  constructor(private readonly databaseService: DatabaseService) {}
 
   async createProduct(createProductRequest: CreateProductRequest): Promise<Product> {
     const product = await this.databaseService.product.create({

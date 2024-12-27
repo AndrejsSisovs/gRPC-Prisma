@@ -14,7 +14,8 @@ import { join } from 'path';
         transport: Transport.GRPC,
         options: {
           package: PRODUCT_PACKAGE_NAME,
-          protoPath: join(__dirname, '../auth.proto')
+          protoPath: join(__dirname, '../auth.proto'),
+          url: '127.0.0.1:3002',
         },
       },
     ]),
