@@ -12,7 +12,8 @@ async function bootstrap() {
     transport: Transport.GRPC,
     options: {
       protoPath: join(__dirname, '../auth.proto'),
-      package: PRODUCT_PACKAGE_NAME
+      package: PRODUCT_PACKAGE_NAME,
+      url: '127.0.0.1:3002',
     },
   },
 );

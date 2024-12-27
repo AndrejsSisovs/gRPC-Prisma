@@ -6,7 +6,9 @@ import { ProductServiceController,
   ProductServiceControllerMethods,
   Products, 
   ProductServiceClient,
-  PRODUCT_SERVICE_NAME} from '@app/comon';
+  PRODUCT_SERVICE_NAME,
+  UserServiceClient,
+  USER_SERVICE_NAME} from '@app/comon';
 import { AUTH_SERVICE } from './constants';
 import { ClientGrpc } from '@nestjs/microservices';
 

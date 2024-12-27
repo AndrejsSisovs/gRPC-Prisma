@@ -1,5 +1,4 @@
 import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app.module';
 import { MicroserviceOptions, Transport } from '@nestjs/microservices';
 import { AuthModule } from './auth/auth.module';
 import { REGISTRATION_PACKAGE_NAME } from '@app/comon';
@@ -13,9 +12,11 @@ async function bootstrap() {
       options: {
         protoPath: join(__dirname, '../registration.proto'),
         package: REGISTRATION_PACKAGE_NAME,
+        url: '127.0.0.1:3001',
       },
     },
   );
+
   await app.listen();
 }
 bootstrap();

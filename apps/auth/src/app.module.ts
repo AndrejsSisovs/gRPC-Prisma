@@ -5,10 +5,7 @@ import { DatabaseModule } from './database/database.module';
 import { UserProductsModule } from './user-products/user-products.module';
 
 @Module({
-  imports: [DatabaseModule, UserProductsModule, CacheModule.register({
-    isGlobal: true,
-    
-  })],
+  imports: [DatabaseModule, UserProductsModule],
   controllers: [],
   providers: [],
 })
