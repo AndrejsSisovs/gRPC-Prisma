@@ -24,6 +24,7 @@
   "dependencies": {
     "@grpc/grpc-js": "^1.12.5",
     "@grpc/proto-loader": "^0.7.13",
+    "@nestjs/bull": "^10.2.3",
     "@nestjs/cache-manager": "^2.3.0",
     "@nestjs/common": "^10.0.0",
     "@nestjs/config": "^3.3.0",
@@ -33,6 +34,7 @@
     "@nestjs/microservices": "^10.4.15",
     "@nestjs/platform-express": "^10.4.15",
     "@prisma/client": "^6.1.0",
+    "bull": "^4.16.5",
     "cache-manager": "^5.7.6",
     "hbs": "^4.2.0",
     "ioredis": "^5.4.1",

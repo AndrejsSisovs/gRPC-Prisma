@@ -9,14 +9,19 @@ import { ProductServiceController,
   PRODUCT_SERVICE_NAME,
   UserServiceClient,
   USER_SERVICE_NAME} from '@app/comon';
-import { AUTH_SERVICE } from './constants';
+import { AUTH_SERVICE, TRANSCODE_QUEUE } from './constants';
 import { ClientGrpc } from '@nestjs/microservices';
+import { InjectQueue } from '@nestjs/bull';
+import { Queue } from 'bull';
 
 @Injectable()
 export class UserProductsService implements OnModuleInit{
   private productService: ProductServiceClient;
 
-  constructor(@Inject(AUTH_SERVICE) private client: ClientGrpc) {}
+  constructor(@Inject(AUTH_SERVICE) private client: ClientGrpc,
+
+  // to inject queue we use inject que decorater || decorator accepts queue name || we provide variable with which we access queue
+  @InjectQueue(TRANSCODE_QUEUE) private readonly transcodeQueue: Queue) {}
   
   onModuleInit() {
     this.productService = this.client.getService<ProductServiceClient>(PRODUCT_SERVICE_NAME)
@@ -41,4 +46,12 @@ export class UserProductsService implements OnModuleInit{
   removeProduct(id: number) {
     return this.productService.removeProduct({id});
   }
+
+  async transcode() {
+    //add method accepts object
+    await this.transcodeQueue.add({
+      filename: './file.mp3'    //next we need to create a consumer for this job 'transcode-consumer'
+    });  
+  };
+
 }
